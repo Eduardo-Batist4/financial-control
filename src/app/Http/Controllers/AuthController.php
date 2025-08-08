@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
-use App\Services\UserService;
+use App\Http\Requests\LoginRequest;
+use App\Http\Resources\AuthResource;
+use App\Services\AuthService;
 
 class AuthController extends Controller
 {
-
-    public function __construct(protected UserService $userService){}
-
-    public function index()
-    {
-        return $this->userService->all();
-    }
+    public function __construct(protected AuthService $authService){}
 
     public function register(CreateUserRequest $request)
     {
+        $data = $this->authService->register($request->validated());
 
+        return (new AuthResource($data['user']))->additional(['token' => $data['token']]);
+    }
+
+    public function login(LoginRequest $request)
+    {
+        return $this->authService->login($request->validated());
     }
 }

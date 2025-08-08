@@ -31,7 +31,7 @@ class BaseRepositories
     public function update(int $id, array $data)
     {
         $record = $this->model->findOrFail($id);
-        $record->update([$data]);
+        $record->update($data);
         return $record;
     }
 
@@ -39,5 +39,5 @@ class BaseRepositories
     {
         return $this->model->destroy($id);
     }
-    
+
 }
