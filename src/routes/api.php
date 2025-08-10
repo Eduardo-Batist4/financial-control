@@ -17,5 +17,7 @@ Route::middleware(['jwt.verify'])->group(function () {
     Route::put('/users/update/{id}', [ UserController::class, 'update' ]);
     Route::delete('/users/{id}', [ UserController::class, 'delete' ]);
 
+    // Account
+    Route::put('/users/accounts', [ UserController::class, 'update' ]);
 
 });
