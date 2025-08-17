@@ -1,16 +1,17 @@
 <?php
 
+
 namespace App\Repositories;
 
-use App\Models\User;
+use App\Models\Account;
 use Illuminate\Database\Eloquent\Model;
 
-class UserRepositories extends BaseRepositories
+class AccountRepositories extends BaseRepositories
 {
     protected Model $model;
 
     public function __construct()
     {
-        $this->model = new User();
+        $this->model = new Account();
     }
 }
