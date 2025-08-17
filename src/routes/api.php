@@ -27,4 +27,7 @@ Route::middleware(['jwt.verify'])->group(function () {
     Route::post('/categories/create', [ CategoryController::class, 'create' ]);
     Route::put('/categories/update/{id}', [ CategoryController::class, 'update' ]);
     ROute::delete('/categories/delete/{id}', [ CategoryController::class, 'delete' ]);
+
+    // Transactions
+    Route::post('/transactions', []);
 });

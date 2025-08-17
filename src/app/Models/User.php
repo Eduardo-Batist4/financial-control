@@ -45,12 +45,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Account::class);
     }
-<<<<<<< HEAD
-=======
 
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
->>>>>>> feat-crud-account-and-category
 }
