@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateUserRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,8 +16,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'name' => [ 'required', 'string', 'min:3', 'max:255'],
         ];
     }
 
@@ -25,8 +24,8 @@ class UpdateUserRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'status' => 'error',
-            'message' => $validator->errors(),
-            'message' => 'Data validation error.'
-        ]), 422);
+            'errors' => $validator->errors(),
+            'message' => 'Data validation error.',
+        ], 422));
     }
 }

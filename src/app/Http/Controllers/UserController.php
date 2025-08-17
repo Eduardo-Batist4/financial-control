@@ -15,15 +15,15 @@ class UserController extends Controller
         return $this->userService->all();
     }
 
-    public function update(int $id, UpdateUserRequest $request)
+    public function update(UpdateUserRequest $request)
     {
-        $user = $this->userService->update($id, $request->validated());
+        $user = $this->userService->update($request->validated());
         return (new AuthResource($user))->response()->setStatusCode(200);
     }
 
-    public function delete(int $id)
+    public function delete()
     {
-        $this->userService->delete($id);
+        $this->userService->delete();
         return response()->noContent();
     }
 }

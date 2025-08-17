@@ -8,14 +8,22 @@ return new class extends Migration
 {
     public function up(): void
     {
+<<<<<<< HEAD
         Schema::table('account', function (Blueprint $table) {
+=======
+        Schema::table('accounts', function (Blueprint $table) {
+>>>>>>> feat-crud-account-and-category
             $table->softDeletes();
         });
     }
 
     public function down(): void
     {
+<<<<<<< HEAD
         Schema::table('account', function (Blueprint $table) {
+=======
+        Schema::table('accounts', function (Blueprint $table) {
+>>>>>>> feat-crud-account-and-category
             $table->dropSoftDeletes();
         });
     }

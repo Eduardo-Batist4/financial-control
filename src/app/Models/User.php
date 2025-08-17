@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,6 +35,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getKey();
     }
+
     public function getJWTCustomClaims()
     {
         return [];
@@ -45,4 +45,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Account::class);
     }
+<<<<<<< HEAD
+=======
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+>>>>>>> feat-crud-account-and-category
 }

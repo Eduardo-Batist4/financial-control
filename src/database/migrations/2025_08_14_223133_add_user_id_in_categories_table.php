@@ -8,16 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
+        Schema::table('categories', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users');
-            $table->decimal('value', 10, 2);
-            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropForeign('categories_user_id_foreign');
+        });
     }
 };
