@@ -8,17 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('accounts', function (Blueprint $table) {
-
-            $table->softDeletes();
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->string('description')->nullable()->change();
         });
     }
 
     public function down(): void
     {
-        Schema::table('accounts', function (Blueprint $table) {
-
-            $table->dropSoftDeletes();
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->string('description')->nullable(false)->change();
         });
     }
 };

@@ -11,10 +11,7 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-<<<<<<< HEAD
-=======
         'user_id',
->>>>>>> feat-crud-account-and-category
     ];
 
     protected $hidden = [];
@@ -23,12 +20,9 @@ class Category extends Model
     {
         return $this->hasMany(Transaction::class);
     }
-<<<<<<< HEAD
-=======
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
->>>>>>> feat-crud-account-and-category
 }
