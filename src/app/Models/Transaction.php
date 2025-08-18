@@ -16,7 +16,7 @@ class Transaction extends Model
         'type',
         'price',
         'description',
-        'data'
+        'date'
     ];
 
     protected $hidden = [];

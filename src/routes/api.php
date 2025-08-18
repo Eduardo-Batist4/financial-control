@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -29,5 +30,8 @@ Route::middleware(['jwt.verify'])->group(function () {
     ROute::delete('/categories/delete/{id}', [ CategoryController::class, 'delete' ]);
 
     // Transactions
-    Route::post('/transactions', []);
+    Route::post('/transactions', [ TransactionController::class, 'store' ]);
+    Route::get('/transactions', [ TransactionController::class, 'index' ]);
+    Route::put('/transactions/{id}', [ TransactionController::class, 'update' ]);
+    Route::delete('/transactions/{id}', [ TransactionController::class, 'delete' ]);
 });

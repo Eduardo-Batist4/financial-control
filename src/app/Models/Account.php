@@ -8,11 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Account extends Model
 {
     use SoftDeletes;
-
-<<<<<<< HEAD
-=======
     const DEFAULT_VALUE = 1000;
->>>>>>> feat-crud-account-and-category
+
     protected $fillable = [
         'user_id',
         'value'
