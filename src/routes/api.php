@@ -14,8 +14,6 @@ Route::post('/login', [ AuthController::class, 'login' ]);
 
 Route::middleware(['jwt.verify'])->group(function () {
 
-    Route::get('/users', [ UserController::class, 'all' ]);
-
     // User
     Route::put('/users/update', [ UserController::class, 'update' ]);
     Route::delete('/users/delete', [ UserController::class, 'delete' ]);

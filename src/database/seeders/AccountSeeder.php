@@ -2,19 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class AccountSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     public function run(): void
     {
-        $this->call([
-            UserSeeder::class,
-            CategorySeeder::class,
-            AccountSeeder::class,
+        Account::create([
+            'user_id' => 1,
+            'value' => 1800
         ]);
     }
 }

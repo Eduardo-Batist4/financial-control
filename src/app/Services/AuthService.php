@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Http\Resources\AuthResource;
 use App\Repositories\UserRepositories;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
@@ -22,10 +24,12 @@ class AuthService
         ];
     }
 
-    public function login(array $request): array
+    public function login(array $request)
     {
         if (!$token = JWTAuth::attempt($request)) {
-            return response()->json(['error' => 'invalid_credentials'], 401);
+            return response()->json([
+                'message' => __('auth.failed'),
+            ], 401);
         }
 
         return [
