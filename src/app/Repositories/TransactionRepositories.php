@@ -14,9 +14,11 @@ class TransactionRepositories extends BaseRepositories
         $this->model = new Transaction();
     }
 
-    public function getTransactions()
+    public function getTransactions(int $userId)
     {
-        return Transaction::with('category')->get();
+        return Transaction::with('category')
+            ->where('user_id', $userId)
+            ->get();
     }
 
     public function updateTransaction(int $id, array $data, int $userId)

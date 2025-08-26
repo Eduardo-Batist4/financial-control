@@ -15,11 +15,18 @@ class CategoryRepositories extends BaseRepositories
         $this->model = new Category();
     }
 
-    public function update(int $id, array $data)
+    public function allCategories(int $id)
+    {
+        return Category::where('user_id', $id)
+            ->orWhere('user_id', 1)
+            ->get();
+    }
+
+    public function updateCategory(int $id, array $data)
     {
         $category = Category::where('id', $id)
             ->where('user_id', $data['user_id'])
-            ->first();
+            ->firstOrFail();
         $category->update($data);
         return $category;
     }
@@ -28,6 +35,6 @@ class CategoryRepositories extends BaseRepositories
     {
         return Category::where('id', $id)
             ->where('user_id', $userId)
-            ->delete();
+            ->deleteOrFail();
     }
 }

@@ -11,7 +11,7 @@ class CategoryService
 
     public function all()
     {
-        return $this->categoryRepositories->all();
+        return $this->categoryRepositories->allCategories(Auth::id());
     }
 
     public function create(array $data)
@@ -24,7 +24,7 @@ class CategoryService
     {
         $userId = Auth::id();
         $data['user_id'] = $userId;
-        return $this->categoryRepositories->update($id, $data);
+        return $this->categoryRepositories->updateCategory($id, $data);
     }
 
     public function delete(int $id)

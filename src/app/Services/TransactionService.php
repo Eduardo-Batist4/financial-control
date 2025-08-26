@@ -11,7 +11,7 @@ class TransactionService
 
     public function getAllTransactions()
     {
-        return $this->transactionRepositories->getTransactions();
+        return $this->transactionRepositories->getTransactions(Auth::id());
     }
 
     public function createTransaction(array $data)

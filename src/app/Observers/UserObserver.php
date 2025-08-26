@@ -22,7 +22,7 @@ class UserObserver
 
     public function deleted(User $user): void
     {
-        //
+        $user->account()->delete();
     }
 
     public function restored(User $user): void
