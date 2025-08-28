@@ -16,7 +16,8 @@ class Transaction extends Model
         'type',
         'price',
         'description',
-        'date'
+        'date',
+        'account_id',
     ];
 
     protected $hidden = [];
@@ -29,5 +30,10 @@ class Transaction extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
     }
 }

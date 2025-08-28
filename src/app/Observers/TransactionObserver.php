@@ -9,7 +9,17 @@ class TransactionObserver
 {
     public function created(Transaction $transaction): void
     {
-        //
+        DB::transaction(function () use ($transaction) {
+            $account = $transaction->account()->lockForUpdate()->first();
+
+            if ($transaction->type === 'input') {
+                $account->value += $transaction->price;
+            } else {
+                $account->value -= $transaction->price;
+            }
+
+            $account->save();
+        });
     }
 
     public function updated(Transaction $transaction): void

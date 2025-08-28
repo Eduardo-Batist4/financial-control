@@ -3,11 +3,15 @@
 namespace App\Services;
 
 use App\Repositories\TransactionRepositories;
+use App\Repositories\UserRepositories;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionService
 {
-    public function __construct(protected TransactionRepositories $transactionRepositories) {}
+    public function __construct(
+        protected TransactionRepositories $transactionRepositories,
+        protected UserRepositories $userRepositories
+    ) {}
 
     public function getAllTransactions()
     {
@@ -16,7 +20,11 @@ class TransactionService
 
     public function createTransaction(array $data)
     {
-        $data['user_id'] = Auth::id();
+        $userId = Auth::id();
+        $user = $this->userRepositories->getById($userId);
+        $data['user_id'] = $userId;
+        $data['account_id'] = $user->account->id;
+
         return $this->transactionRepositories->create($data);
     }
 
