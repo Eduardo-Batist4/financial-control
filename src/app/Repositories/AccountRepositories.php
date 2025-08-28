@@ -14,4 +14,9 @@ class AccountRepositories extends BaseRepositories
     {
         $this->model = new Account();
     }
+
+    public function getAccountById(int $id)
+    {
+        return Account::where('user_id', $id)->firstOrFail();
+    }
 }

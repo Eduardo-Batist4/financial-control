@@ -13,9 +13,9 @@ class TransactionObserver
             $account = $transaction->account()->lockForUpdate()->first();
 
             if ($transaction->type === 'input') {
-                $account->value += $transaction->price;
+                $account->balance += $transaction->amount;
             } else {
-                $account->value -= $transaction->price;
+                $account->balance -= $transaction->amount;
             }
 
             $account->save();

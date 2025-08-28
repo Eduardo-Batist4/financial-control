@@ -11,7 +11,7 @@ class UserObserver
     {
         Account::create([
            'user_id' => $user->id,
-           'value' => Account::DEFAULT_VALUE,
+           'balance' => Account::DEFAULT_BALANCE,
         ]);
     }
 

@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Account extends Model
 {
     use SoftDeletes;
-    const DEFAULT_VALUE = 1000;
+    const DEFAULT_BALANCE = 1000;
 
     protected $fillable = [
         'user_id',
-        'value'
+        'balance'
     ];
 
     protected $hidden = [];

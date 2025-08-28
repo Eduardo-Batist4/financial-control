@@ -16,7 +16,7 @@ class AccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'value' => ['required', 'numeric', 'min:1']
+            'balance' => ['required', 'numeric', 'min:1']
         ];
     }
 

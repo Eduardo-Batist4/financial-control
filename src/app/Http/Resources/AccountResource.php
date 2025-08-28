@@ -10,7 +10,7 @@ class AccountResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'value' => $this->value,
+            'balance' => $this->balance,
         ];
     }
 }
