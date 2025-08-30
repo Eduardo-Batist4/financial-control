@@ -19,6 +19,8 @@ class AccountController extends Controller
     public function update(AccountRequest $request)
     {
         $account = $this->accountRepositories->update(Auth::id(), $request->validated());
+        $account->recalculateBalance();
+
         return new AccountResource($account);
     }
 }

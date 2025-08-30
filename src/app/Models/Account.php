@@ -12,7 +12,8 @@ class Account extends Model
 
     protected $fillable = [
         'user_id',
-        'balance'
+        'balance',
+        'current_balance',
     ];
 
     protected $hidden = [];
@@ -25,5 +26,18 @@ class Account extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function recalculateBalance()
+    {
+        $inputs = $this->transactions()
+            ->where('type', Transaction::TYPE_INPUT)
+            ->sum('amount');
+        $outputs = $this->transactions()
+            ->where('type', Transaction::TYPE_OUTPUT)
+            ->sum('amount');
+
+        $this->current_balance = $this->balance + $inputs - $outputs;
+        $this->updateQuietly();
     }
 }

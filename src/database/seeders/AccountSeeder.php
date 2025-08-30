@@ -12,7 +12,8 @@ class AccountSeeder extends Seeder
     {
         Account::create([
             'user_id' => 1,
-            'value' => 1800
+            'balance' => Account::DEFAULT_BALANCE,
+            'current_balance' => Account::DEFAULT_BALANCE,
         ]);
     }
 }

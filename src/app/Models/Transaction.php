@@ -9,6 +9,9 @@ class Transaction extends Model
 {
     use softDeletes;
 
+    const TYPE_INPUT = 'input';
+    const TYPE_OUTPUT = 'output';
+
     protected $fillable = [
         'name',
         'category_id',

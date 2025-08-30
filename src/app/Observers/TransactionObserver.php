@@ -12,10 +12,10 @@ class TransactionObserver
         DB::transaction(function () use ($transaction) {
             $account = $transaction->account()->lockForUpdate()->first();
 
-            if ($transaction->type === 'input') {
-                $account->balance += $transaction->amount;
+            if ($transaction->type === Transaction::TYPE_INPUT) {
+                $account->current_balance += $transaction->amount;
             } else {
-                $account->balance -= $transaction->amount;
+                $account->current_balance -= $transaction->amount;
             }
 
             $account->save();
@@ -29,7 +29,17 @@ class TransactionObserver
 
     public function deleted(Transaction $transaction): void
     {
-        //
+        DB::transaction(function () use ($transaction) {
+            $account = $transaction->account()->lockForUpdate()->first();
+
+            if ($transaction->type === Transaction::TYPE_INPUT) {
+                $account->current_balance += $transaction->amount;
+            } else {
+                $account->current_balance -= $transaction->amount;
+            }
+
+            $account->save();
+        });
     }
 
     public function restored(Transaction $transaction): void

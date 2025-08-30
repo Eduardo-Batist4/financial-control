@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Account;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Observers\UserObserver;
 use App\Observers\TransactionObserver;
+use App\Observers\AccountObserver;
 use App\Policies\UserPolicy;
 use App\Policies\AccountPolicy;
 use Illuminate\Support\ServiceProvider;
