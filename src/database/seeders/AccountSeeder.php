@@ -13,7 +13,13 @@ class AccountSeeder extends Seeder
         Account::create([
             'user_id' => 1,
             'balance' => Account::DEFAULT_BALANCE,
-            'current_balance' => Account::DEFAULT_BALANCE,
+            'current_balance' => 670, // Temporary, for development only
+        ]);
+
+        Account::create([
+            'user_id' => 2,
+            'balance' => Account::DEFAULT_BALANCE,
+            'current_balance' => 900, // Temporary, for development only
         ]);
     }
 }
