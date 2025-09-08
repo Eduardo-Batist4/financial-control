@@ -26,7 +26,6 @@ class CategoryRepositories extends BaseRepositories
         $category = Category::where('id', $id)
             ->where('user_id', $data['user_id'])
             ->firstOrFail();
-            
         $category->update($data);
 
         return $category;

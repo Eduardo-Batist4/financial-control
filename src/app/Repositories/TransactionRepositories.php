@@ -27,13 +27,16 @@ class TransactionRepositories extends BaseRepositories
             ->where('user_id', $userId)
             ->first();
         $transaction->update($data);
+        
         return $transaction;
     }
 
     public function deleteTransaction(int $id, int $userId)
     {
-        return Transaction::where('id', $id)
+        $transaction = Transaction::where('id', $id)
             ->where('user_id', $userId)
-            ->delete();
+            ->firstOrFail();
+        
+        $transaction->delete();
     }
 }

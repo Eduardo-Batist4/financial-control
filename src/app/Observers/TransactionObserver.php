@@ -3,43 +3,41 @@
 namespace App\Observers;
 
 use App\Models\Transaction;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TransactionObserver
 {
     public function created(Transaction $transaction): void
     {
-        DB::transaction(function () use ($transaction) {
-            $account = $transaction->account()->lockForUpdate()->first();
+        Log::info('Transaction created.', [
+            'transaction_id' => $transaction->id,
+            'amount' => $transaction->amount,
+            'type' => $transaction->type,
+        ]);
 
-            if ($transaction->type === Transaction::TYPE_INPUT) {
-                $account->current_balance += $transaction->amount;
-            } else {
-                $account->current_balance -= $transaction->amount;
-            }
-
-            $account->save();
-        });
+        $transaction->account->recalculateBalance();
     }
 
     public function updated(Transaction $transaction): void
-    {
-        //
+    { 
+        Log::info('Transaction updated.', [
+            'transaction_id' => $transaction->id,
+            'amount' => $transaction->amount,
+            'type' => $transaction->type,
+        ]);
+
+        $transaction->account->recalculateBalance();
     }
 
     public function deleted(Transaction $transaction): void
-    {
-        DB::transaction(function () use ($transaction) {
-            $account = $transaction->account()->lockForUpdate()->first();
-
-            if ($transaction->type === Transaction::TYPE_INPUT) {
-                $account->current_balance += $transaction->amount;
-            } else {
-                $account->current_balance -= $transaction->amount;
-            }
-
-            $account->save();
-        });
+    { 
+        Log::info('Transaction created.', [
+            'transaction_id' => $transaction->id,
+            'amount' => $transaction->amount,
+            'type' => $transaction->type,
+        ]);
+        
+        $transaction->account->recalculateBalance();
     }
 
     public function restored(Transaction $transaction): void

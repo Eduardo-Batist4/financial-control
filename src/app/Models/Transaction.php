@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Observers\TransactionObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
-    use softDeletes;
+    // use softDeletes;
 
     const TYPE_INPUT = 'input';
     const TYPE_OUTPUT = 'output';
