@@ -11,12 +11,12 @@ class TransactionResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'category_id' => $this->category_id,
             'type' => $this->type,
             'amount' => $this->amount,
             'description' => $this->description,
             'date' => $this->date,
             'category' => [
+                'id' => $this->category->id,
                 'name' => $this->category->name,
             ]
         ];
