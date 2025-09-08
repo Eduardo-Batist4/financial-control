@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 
 class Account extends Model
 {
@@ -30,11 +31,10 @@ class Account extends Model
 
     public function recalculateBalance()
     {
-        $inputs = $this->transactions()
-            ->where('type', Transaction::TYPE_INPUT)
+        $inputs = Transaction::where('type', Transaction::TYPE_INPUT)
             ->sum('amount');
-        $outputs = $this->transactions()
-            ->where('type', Transaction::TYPE_OUTPUT)
+            
+        $outputs = Transaction::where('type', Transaction::TYPE_OUTPUT)
             ->sum('amount');
 
         $this->current_balance = $this->balance + $inputs - $outputs;
