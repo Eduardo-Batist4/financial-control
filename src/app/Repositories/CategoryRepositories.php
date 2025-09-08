@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,14 +26,18 @@ class CategoryRepositories extends BaseRepositories
         $category = Category::where('id', $id)
             ->where('user_id', $data['user_id'])
             ->firstOrFail();
+            
         $category->update($data);
+
         return $category;
     }
 
     public function deleteCategory(int $id, int $userId)
     {
-        return Category::where('id', $id)
+        $category = Category::where('id', $id)
             ->where('user_id', $userId)
-            ->deleteOrFail();
+            ->firstOrFail();
+
+        $category->delete();
     }
 }
