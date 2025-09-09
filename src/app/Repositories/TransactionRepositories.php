@@ -18,7 +18,7 @@ class TransactionRepositories extends BaseRepositories
     {
         return Transaction::with('category')
             ->where('user_id', $userId)
-            ->get();
+            ->simplePaginate(2);
     }
 
     public function updateTransaction(int $id, array $data, int $userId)
