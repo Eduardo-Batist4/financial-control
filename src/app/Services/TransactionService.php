@@ -15,9 +15,9 @@ class TransactionService
         protected AccountRepositories $accountRepositories,
     ) {}
 
-    public function getAllTransactions()
+    public function getAllTransactions(?array $filter)
     {
-        return $this->transactionRepositories->getTransactions(Auth::id());
+        return $this->transactionRepositories->getTransactions(Auth::id(), $filter);
     }
 
     public function createTransaction(array $data)

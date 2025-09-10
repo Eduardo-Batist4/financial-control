@@ -2,23 +2,31 @@
 
 namespace App\Repositories;
 
+use App\Filters\TransactionFilter;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class TransactionRepositories extends BaseRepositories
 {
     protected Model $model;
+    protected TransactionFilter $filter;
 
     public function __construct()
     {
         $this->model = new Transaction();
+        $this->filter = new TransactionFilter();
     }
 
-    public function getTransactions(int $userId)
+    public function getTransactions(int $userId, ?array $filter = [])
     {
-        return Transaction::with('category')
-            ->where('user_id', $userId)
-            ->simplePaginate(2);
+        $query = Transaction::with('category')
+            ->where('user_id', $userId);
+
+        if (isset($filter)) {
+            $query = $this->filter->apply($query, $filter);
+        }
+    
+        return $query->simplePaginate(10);
     }
 
     public function updateTransaction(int $id, array $data, int $userId)

@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Services\TransactionService;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
     public function __construct(protected TransactionService $transactionService) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $transaction = $this->transactionService->getAllTransactions();
+        $transaction = $this->transactionService->getAllTransactions($request->all());
         return TransactionResource::collection($transaction);
     }
 
