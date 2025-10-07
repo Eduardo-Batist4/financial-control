@@ -31,6 +31,7 @@ Route::middleware(['jwt.verify'])->group(function () {
     // Transactions
     Route::post('/transactions', [ TransactionController::class, 'store' ]);
     Route::get('/transactions', [ TransactionController::class, 'index' ]);
+    Route::get('/transactions/stats', [ TransactionController::class, 'transactionStats' ]);
     Route::put('/transactions/{id}', [ TransactionController::class, 'update' ]);
     Route::delete('/transactions/{id}', [ TransactionController::class, 'delete' ]);
 });
