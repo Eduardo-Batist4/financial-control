@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Filters\TransactionFilter;
 use App\Models\Transaction;
 use Carbon\Carbon;
-use Illuminate\Container\Attributes\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB as FacadesDB;
 
@@ -62,7 +61,7 @@ class TransactionRepositories extends BaseRepositories
             $row->percentage = $total > 0 ? round(($row->total / $total) * 100, 0) : 0;
             return $row;
         });
-
+        
         return $stats;
     }
 

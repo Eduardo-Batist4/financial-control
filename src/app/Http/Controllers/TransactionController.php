@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TransactionRequest;
 use App\Http\Resources\TransactionResource;
+use App\Http\Resources\TransactionStaticResource;
 use App\Services\TransactionAnalysisService;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
@@ -23,7 +24,8 @@ class TransactionController extends Controller
 
     public function transactionStats(Request $request)
     {
-        return $this->transactionAnalysisService->calculateMonthlyStats($request->all());
+        $statics = $this->transactionAnalysisService->calculateMonthlyStats($request->all());
+        return TransactionStaticResource::collection($statics);
     }
 
     public function store(TransactionRequest $request)
