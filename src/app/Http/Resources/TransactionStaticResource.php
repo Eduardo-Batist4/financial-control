@@ -12,7 +12,7 @@ class TransactionStaticResource extends JsonResource
         return [
             'category_id' => $this->category_id,
             'category_name' => $this->category_name,
-            'total_average' => $this->total, 
+            'total' => $this->total, 
             'average' => $this->percentage,
         ];
     }
