@@ -29,21 +29,110 @@ class TransactionTest extends TestCase
     {
         $token = JWTAuth::fromUser($this->user);        
 
-        Transaction::create([
-            'name' => 'Test-01',
-            'category_id' => $this->category->id,
-            'user_id' => $this->user->id,
-            'type' => 'output',
-            'amount' => 500.90,
-            'date' => '2025-09-20',
-            'account_id' => $this->user->account->id
-        ]);
+        Transaction::factory()
+            ->count(5)
+            ->create([
+                'user_id' => $this->user->id,
+                'category_id' => $this->category->id,
+                'account_id' => $this->user->account->id
+            ]);        
 
         $this->get('/api/transactions',[
             'Authorization' => "Bearer $token"
         ])
         ->assertStatus(200)
-        ->assertJsonFragment(['name' => 'Test-01']);
+        ->assertJsonCount(5, 'data')
+        ->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'type',
+                    'amount',
+                    'description',
+                    'date',
+                    'category' => [
+                        'id',
+                        'name'
+                    ]
+                ]
+            ]
+        ]);
+    }
+
+    public function test_must_return_the_statistcs_of_all_transactions(): void
+    {
+        $token = JWTAuth::fromUser($this->user);
+
+        $categories = $this->user->categories()->createMany([
+            ['name' => 'Poatan'],
+            ['name' => 'jjj']
+        ]);
+
+        $this->user->transactions()->createMany([
+            [
+                'name' => 'Mac Donalds',
+                'category_id' => $categories[0]->id,
+                'account_id' => $this->user->account->id,
+                'type' => 'output',
+                'amount' => 500,
+                'date' => '2025-09-14',
+            ],
+            [
+                'name' => 'Chair',
+                'category_id' => $categories[0]->id,
+                'account_id' => $this->user->account->id,
+                'type' => 'output',
+                'amount' => 645,
+                'date' => '2025-09-03',
+            ],
+            [
+                'name' => 'Window',
+                'category_id' => $categories[0]->id,
+                'account_id' => $this->user->account->id,
+                'type' => 'output',
+                'amount' => 132.99,
+                'date' => '2025-09-22',
+            ],
+            [
+                'name' => 'Door',
+                'category_id' => $categories[0]->id,
+                'account_id' => $this->user->account->id,
+                'type' => 'output',
+                'amount' => 879.50,
+                'date' => '2025-09-25',
+            ],
+            [
+                'name' => 'Mouse Logitech',
+                'category_id' => $categories[1]->id,
+                'account_id' => $this->user->account->id,
+                'type' => 'output',
+                'amount' => 200,
+                'date' => '2025-09-16',
+            ], 
+        ]);
+        
+        $this->get('/api/transactions/stats', [
+            'Authorization' => "Bearer $token"
+        ])
+        ->assertStatus(200)
+        ->assertJsonCount(2, 'data')
+        ->assertJsonFragment([
+            'data' => [
+                [
+                    'category_id' => $categories[0]->id,
+                    'category_name' => 'Poatan',
+                    'total' => 2157.49,
+                    'average' => 92
+                ],
+                [
+                    'category_id' => $categories[1]->id,
+                    'category_name' => 'jjj',
+                    'total' => 200,
+                    'average' => 8
+                ]
+            ]
+            ]);
     }
 
     public function test_must_create_a_new_transaction_with_type_input(): void
