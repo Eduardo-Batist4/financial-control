@@ -15,8 +15,7 @@ class TransactionAnalysisService
     public function calculateMonthlyStats(?array $filter)
     {
         $transactions = $this->transactionRepositories->getTransactionsToStats(Auth::id(), $filter);
-        
+
         return $transactions;
     }
-
-} 
+}

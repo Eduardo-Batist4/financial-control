@@ -27,7 +27,7 @@ class TransactionRepositories extends BaseRepositories
         if (isset($filter)) {
             $query = $this->filter->apply($query, $filter);
         }
-    
+
         return $query->simplePaginate(10);
     }
 
@@ -35,33 +35,34 @@ class TransactionRepositories extends BaseRepositories
     {
         $start = Carbon::now()->subMonth()->startOfMonth();
         $end = Carbon::now()->subMonth()->endOfMonth();
-            
+
         $query = Transaction::select([
                 'categories.id as category_id',
                 'categories.name as category_name',
                 FacadesDB::raw('SUM(transactions.amount) as total'),
-            ])  
+            ])
             ->join('categories', 'categories.id', '=', 'transactions.category_id')
             ->where('transactions.user_id', $userId)
+            ->where('transactions.type', 'output')
             ->whereNull('transactions.deleted_at')
             ->groupBy('categories.id', 'categories.name')
             ->orderByDesc('total');
-            
+
             if (!empty($filter)) {
                 $query = $this->filter->apply($query, $filter);
             } else {
                 $query->whereBetween('transactions.date', [$start, $end]);
-            } 
+            }
 
         $rows = $query->get();
-    
+
         $total = $rows->sum('total');
-        
+
         $stats = $rows->map(function ($row) use ($total){
             $row->percentage = $total > 0 ? round(($row->total / $total) * 100, 0) : 0;
             return $row;
         });
-        
+
         return $stats;
     }
 
@@ -71,7 +72,7 @@ class TransactionRepositories extends BaseRepositories
             ->where('user_id', $userId)
             ->first();
         $transaction->update($data);
-        
+
         return $transaction;
     }
 
@@ -80,7 +81,7 @@ class TransactionRepositories extends BaseRepositories
         $transaction = Transaction::where('id', $id)
             ->where('user_id', $userId)
             ->firstOrFail();
-        
+
         $transaction->delete();
     }
 }

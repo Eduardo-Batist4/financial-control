@@ -27,7 +27,7 @@ class TransactionTest extends TestCase
 
     public function test_must_return_all_transactions(): void
     {
-        $token = JWTAuth::fromUser($this->user);        
+        $token = JWTAuth::fromUser($this->user);
 
         Transaction::factory()
             ->count(5)
@@ -35,7 +35,7 @@ class TransactionTest extends TestCase
                 'user_id' => $this->user->id,
                 'category_id' => $this->category->id,
                 'account_id' => $this->user->account->id
-            ]);        
+            ]);
 
         $this->get('/api/transactions',[
             'Authorization' => "Bearer $token"
@@ -60,7 +60,7 @@ class TransactionTest extends TestCase
         ]);
     }
 
-    public function test_must_return_the_statistcs_of_all_transactions(): void
+    public function test_must_return_the_statistics_of_all_transactions_set_date(): void
     {
         $token = JWTAuth::fromUser($this->user);
 
@@ -109,10 +109,10 @@ class TransactionTest extends TestCase
                 'type' => 'output',
                 'amount' => 200,
                 'date' => '2025-09-16',
-            ], 
+            ],
         ]);
-        
-        $this->get('/api/transactions/stats', [
+
+        $this->get('/api/transactions/stats?start_date=2025-09-01&end_date=2025-09-30', [
             'Authorization' => "Bearer $token"
         ])
         ->assertStatus(200)
@@ -139,13 +139,13 @@ class TransactionTest extends TestCase
     {
         $token = JWTAuth::fromUser($this->user);
 
-        $payload = [            
+        $payload = [
             'name' => 'Test-02',
             'category_id' => $this->category->id,
             'type' => 'input',
             'amount' => 719.99,
             'description' => 'descrição',
-            'date' => '2025-09-08', 
+            'date' => '2025-09-08',
         ];
 
         $this->post('/api/transactions', $payload, [
@@ -156,7 +156,7 @@ class TransactionTest extends TestCase
             'name' => 'Test-02',
             'type' => 'input',
             'amount' => 719.99,
-            'description' => 'descrição', 
+            'description' => 'descrição',
             'date' => '2025-09-08',
         ]);
 
@@ -172,12 +172,12 @@ class TransactionTest extends TestCase
     {
         $token = JWTAuth::fromUser($this->user);
 
-        $payload = [            
+        $payload = [
             "name" => "Test-03",
             "category_id" => $this->category->id,
             "type" => "output",
             "amount" => 300.00,
-            "date" => "2025-09-08", 
+            "date" => "2025-09-08",
         ];
 
         $this->post('/api/transactions', $payload, [
@@ -188,7 +188,7 @@ class TransactionTest extends TestCase
             'name' => 'Test-03',
             'type' => 'output',
             'amount' => 300.00,
-            'description' => null, 
+            'description' => null,
             'date' => '2025-09-08',
         ]);
 
@@ -221,18 +221,18 @@ class TransactionTest extends TestCase
             'category_id' => $newCategory->id,
             'type' => 'output',
             'amount' => 499.99,
-            'date' => '2025-09-18', 
+            'date' => '2025-09-18',
         ];
 
         $this->put("/api/transactions/{$transaction->id}", $payload, [
             'Authorization' => "Bearer $token",
         ])
         ->assertStatus(200)
-        ->assertJsonFragment([   
+        ->assertJsonFragment([
             'name' => 'Test-04 updated',
             'type' => 'output',
             'amount' => 499.99,
-            'description' => null, 
+            'description' => null,
             'date' => '2025-09-18',
         ]);
     }
