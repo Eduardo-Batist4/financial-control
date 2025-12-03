@@ -11,8 +11,11 @@ use App\Http\Controllers\UserController;
 
 Route::post('/register', [ AuthController::class, 'register' ]);
 Route::post('/login', [ AuthController::class, 'login' ]);
+Route::post('/api/refresh', [ AuthController::class, 'refreshToken' ]);
 
 Route::middleware(['jwt.verify'])->group(function () {
+
+    Route::post('/logout', [ AuthController::class, 'logout' ]);
 
     // User
     Route::put('/users/update', [ UserController::class, 'update' ]);
