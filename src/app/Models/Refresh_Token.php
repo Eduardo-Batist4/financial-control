@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Refresh_Token extends Model
 {
     protected $table = 'refresh_token';
+    protected $casts = ['jti' => 'string'];
     protected $fillable = [
         'user_id',
         'jti',
@@ -19,10 +21,10 @@ class Refresh_Token extends Model
     }
 
     public function isExpired() {
-        return now()->isAfter($this->expires_at);
+        return Carbon::now()->isAfter($this->expires_at);
     }
 
-    public function isValid() {
-        return !$this->is_revoked && !$this->isExpired();
+    public function isInvalid() {
+        return $this->is_revoked || $this->isExpired();
     }
 }
